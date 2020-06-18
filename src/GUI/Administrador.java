@@ -5,7 +5,9 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,8 +23,10 @@ public class Administrador extends javax.swing.JFrame {
     Tabela tb = new Tabela();
 
     public Administrador() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagens/politica.png")));
         String senha = "";
-        while (!"qwe123".equals(senha)) {
+        do{
+        
             JPasswordField password = new JPasswordField(10);
             password.setEchoChar('*');
 
@@ -31,12 +35,12 @@ public class Administrador extends javax.swing.JFrame {
             JPanel entUsuario = new JPanel();
             entUsuario.add(rotulo);
             entUsuario.add(password);
-            JOptionPane.showMessageDialog(null, entUsuario, "Acesso restrito", JOptionPane.PLAIN_MESSAGE);
+            if (JOptionPane.showConfirmDialog(null, entUsuario, "Acesso restrito", JOptionPane.PLAIN_MESSAGE) == JOptionPane.CLOSED_OPTION)
+                System.exit(0);
             senha = password.getText();
-        }
+        } while (!"qwe123".equals(senha));
         initComponents();
         setLocationRelativeTo(null);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagens/politica.png")));
     }
 
     @SuppressWarnings("unchecked")
@@ -68,6 +72,7 @@ public class Administrador extends javax.swing.JFrame {
 
         menuArquivo.setText("Arquivo");
 
+        menuItemUrna.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         menuItemUrna.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/urna.png"))); // NOI18N
         menuItemUrna.setText("Iniciar Urna");
         menuItemUrna.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +83,7 @@ public class Administrador extends javax.swing.JFrame {
         menuArquivo.add(menuItemUrna);
         menuArquivo.add(separador1);
 
+        menuItemResultado.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         menuItemResultado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/politica.png"))); // NOI18N
         menuItemResultado.setText("Resultado");
         menuItemResultado.addActionListener(new java.awt.event.ActionListener() {
@@ -88,6 +94,7 @@ public class Administrador extends javax.swing.JFrame {
         menuArquivo.add(menuItemResultado);
         menuArquivo.add(separador2);
 
+        menuItemPDF.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         menuItemPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pdf.png"))); // NOI18N
         menuItemPDF.setText("Gerar PDF");
         menuItemPDF.addActionListener(new java.awt.event.ActionListener() {
@@ -100,14 +107,13 @@ public class Administrador extends javax.swing.JFrame {
         barraMenu.add(menuArquivo);
 
         menuZerar.setText("Zerar Banco");
-        menuZerar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuZerarMouseClicked(evt);
+        menuZerar.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                menuZerarMenuSelected(evt);
             }
-        });
-        menuZerar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuZerarActionPerformed(evt);
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
         });
         barraMenu.add(menuZerar);
@@ -134,27 +140,15 @@ public class Administrador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuZerarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuZerarMouseClicked
-        tb.Zerar();
-        TabelaResultado.setText("");
-        TabelaResultado.append(tb.consulta());
-    }//GEN-LAST:event_menuZerarMouseClicked
-
     private void menuItemUrnaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemUrnaActionPerformed
         new Principal().setVisible(true);
         super.setVisible(false);
     }//GEN-LAST:event_menuItemUrnaActionPerformed
 
     private void menuItemResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemResultadoActionPerformed
-        TabelaResultado.append(tb.consulta());
+        TabelaResultado.setText("");
+        TabelaResultado.append(tb.Consulta());
     }//GEN-LAST:event_menuItemResultadoActionPerformed
-
-    private void menuZerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuZerarActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "Tem certeza que deseja zerado todo o bnaco de dados?", "Zerar banco?", JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-            tb.Zerar();
-            JOptionPane.showMessageDialog(null, "Banco zerado com sucesso!", "Zerado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_menuZerarActionPerformed
 
     private void menuItemPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPDFActionPerformed
         Document document = new Document(PageSize.A4, 72, 72, 72, 72);
@@ -162,22 +156,36 @@ public class Administrador extends javax.swing.JFrame {
             Font fontBold = new Font(FontFamily.COURIER, 24, Font.BOLD);
             Font fontItalic = new Font(FontFamily.COURIER, 12, Font.ITALIC);
             Date dt = new Date();
-            Image img = Image.getInstance(getClass().getResource("/brasao.png").toString());
+            Image img = Image.getInstance(getClass().getResource("/Imagens/brasao.png").toString());
             img.setAlignment(Element.ALIGN_RIGHT);
-            PdfWriter.getInstance(document, new FileOutputStream(getClass().getResource("/Resultado.pdf").toString()));
+            File arq = new File("./Resultado.pdf");
+            PdfWriter.getInstance(document, new FileOutputStream(arq));
             document.open();
             document.add(img);
             document.add(new Paragraph("        RESULTADO FINAL:", fontBold));
             document.add(new Paragraph("Apuração dos votos do dia: " + dt.getDate() + "/" + dt.getMonth() + "  Documento criado às " + dt.getHours() + ":" + dt.getMinutes(), fontItalic));
-            document.add(new Paragraph(tb.consulta()));
-            JOptionPane.showMessageDialog(null, "O arquivo PDF foi gerado com sucesso!\nEle foi salvo em: '" + getClass().getResource("/Resultado.pdf") + "'", "Salvo com sucesso!", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+            document.add(new Paragraph(tb.Consulta()));
+            JOptionPane.showMessageDialog(null, "O arquivo PDF foi gerado com sucesso!\nEle foi salvo em: '" + arq.getAbsolutePath() + "'", "Salvo com sucesso!", JOptionPane.INFORMATION_MESSAGE);
+        } catch (DocumentException e) {
+            System.err.println(e);
+        } catch (IOException e) {
+            System.err.println(e);
         }
+            
         document.close();
     }//GEN-LAST:event_menuItemPDFActionPerformed
 
+    private void menuZerarMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_menuZerarMenuSelected
+        if (JOptionPane.showConfirmDialog(null, "Tem certeza que deseja zerado todo o bnaco de dados?", "Zerar banco?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            tb.Zerar();
+            TabelaResultado.setText("");
+            TabelaResultado.append(tb.Consulta());
+            JOptionPane.showMessageDialog(null, "Banco zerado com sucesso!", "Zerado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_menuZerarMenuSelected
+
     public static void main(String args[]) {
+        
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html

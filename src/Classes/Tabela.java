@@ -13,11 +13,12 @@ public class Tabela {
     ResultSet rs = null;
     String sql = null;
 
-    public String consulta() {
+    public String Consulta() {
         String a = "";
         try {
             String nome = null;
             int voto = 0;
+            con = conexao.Abrir();
             stmt = con.createStatement();
             sql = "SELECT * FROM CANDIDATOS ORDER BY VOTO DESC;";
             rs = stmt.executeQuery(sql);

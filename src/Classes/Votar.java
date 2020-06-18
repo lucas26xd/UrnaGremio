@@ -27,6 +27,7 @@ public class Votar {
             stmt.executeUpdate(sql);
             System.out.println("Voto realizado com sucesso.");
         } catch (Exception ex) {
+            System.err.println(ex);
             JOptionPane.showMessageDialog(null, "Erro ao votar", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }

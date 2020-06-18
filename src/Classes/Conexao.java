@@ -11,9 +11,10 @@ public class Conexao {
     public Connection Abrir() {
         try {
             Class.forName("org.sqlite.JDBC");
-            con = DriverManager.getConnection("jdbc:sqlite:" + new File("/").getAbsolutePath() + "urna.sqlite");
+            con = DriverManager.getConnection("jdbc:sqlite:" + new File("./").getAbsolutePath() + "urna.sqlite");
             System.out.println("Conexão aberta com sucesso.");
         } catch (Exception e) {
+            System.err.println(e);
             JOptionPane.showMessageDialog(null, "Erro ao abrir conexão na classe Conexão.");
         }
         return con;
@@ -24,7 +25,7 @@ public class Conexao {
             con.close();
             System.out.println("Conexão fechada com sucesso.");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error ao fechar conexão.");
+            JOptionPane.showMessageDialog(null, "Erro ao fechar conexão.");
         }
     }
 }

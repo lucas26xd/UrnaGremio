@@ -30,6 +30,9 @@ public class Principal extends javax.swing.JFrame implements SerialPortEventList
     private static final int DATA_RATE = 9600;
 
     private void inicializaSerial() {
+        final String PORT_NAME = "/dev/ttyUSB0"; //Linux
+//        final String PORT_NAME = "COM5"; //Windows
+        System.setProperty("gnu.io.rxtx.SerialPorts", PORT_NAME);
         CommPortIdentifier portId = null;
         Enumeration pList = CommPortIdentifier.getPortIdentifiers();
         while (pList.hasMoreElements()) {
@@ -79,6 +82,7 @@ public class Principal extends javax.swing.JFrame implements SerialPortEventList
     }
 
     public Principal() {
+        new BD().CriarTabela();
         initComponents();
         inicializaSerial();
         setLocationRelativeTo(null);
@@ -99,7 +103,7 @@ public class Principal extends javax.swing.JFrame implements SerialPortEventList
         LogoEscola = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("        Urna Eletoral para grêmio estudantil                                                                                                                                                                                Desenvolvedores:     Lucas   e   Ivan");
+        setTitle("   Urna Eletoral para grêmio estudantil                                                                                 Desenvolvedores:   Lucas  e  Ivan");
 
         painel.setBackground(new java.awt.Color(220, 220, 220));
 
@@ -254,9 +258,6 @@ public class Principal extends javax.swing.JFrame implements SerialPortEventList
     }//GEN-LAST:event_BrancoActionPerformed
 
     public static void main(String args[]) {
-        BD bd = new BD();
-        bd.Criar_Tabela();
-
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /*
          * If Nimbus (introduced in Java SE 6) is not available, stay with the
