@@ -15,7 +15,8 @@ Na urna, para votar, o usuário deve utilizar o mouse e clicar e um dos botões 
 
 ### 🚀 Especificações
 Todo código foi construído inteiramente em [Java](https://www.java.com/) usado JFrame para criação das interfaces gráficas. Também foi utilizado um Arduino com um botão conectado na porta digital 3 para desbloqueio da urna a cada voto pelo mesário.
-O código do Arduino encontra-se na pasta Botao_Arduino.
+O código do Arduino encontra-se na pasta Botao_Arduino. Abaixo segue o esquemático e funcionamento do circuito no Arduino.
+![Esquemático](http://g.recordit.co/67MSi39osP.gif)
 
 ## :date: Maio de 2014
 Estávamos no Terceiro ano do ensino médio profissionalizante em Redes de Computadores e cheios de vontade de inovar e criar coisas na área de tecnologia.
