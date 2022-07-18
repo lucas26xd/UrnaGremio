@@ -1,4 +1,4 @@
-# :mask: :coffee: :computer: Quarentine Project #5 - Nostalgia 2.0
+# :mask: :coffee: :computer: [Quarentine Project](https://github.com/lucas26xd/Quarentine-Projects)  #5 - Nostalgia 2.0
 [![GitHub author](https://img.shields.io/badge/author-lucas26xd-blueviolet?style=flat-square)](https://github.com/lucas26xd)
 [![GitHub last commit](https://img.shields.io/github/last-commit/lucas26xd/UrnaGremio?color=blueviolet&style=flat-square)](../../commits/master)
 ![GitHub repo size](https://img.shields.io/github/repo-size/lucas26xd/UrnaGremio?color=blueviolet&style=flat-square)
@@ -21,4 +21,4 @@ O código do Arduino encontra-se na pasta Botao_Arduino. Abaixo segue o esquemá
 ## :date: Maio de 2014
 Estávamos no Terceiro ano do ensino médio profissionalizante em Redes de Computadores e cheios de vontade de inovar e criar coisas na área de tecnologia.
 Na EEEP Marta Maria Giffoni de Sousa.
-![Foto Urna](https://scontent.fqbx1-1.fna.fbcdn.net/v/t1.0-9/10246583_630796147006965_4459809129163711243_n.jpg?_nc_cat=107&_nc_sid=ba80b0&_nc_oc=AQnyF65fbLqk2LNAYpThf3v6gBFsxeriKiF5vygTfoAnW1QDiLFPo3QtT19XSS1JzEo&_nc_ht=scontent.fqbx1-1.fna&oh=8487b9bfb9fe43d610b4611b232e8141&oe=5F16C09A)
+![Foto Urna](https://eeepmartagiffoni.files.wordpress.com/2014/05/lucas-e-ivan.jpg)
